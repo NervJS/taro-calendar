@@ -1,0 +1,29 @@
+{
+  "extends": ["o2team", "taro"],
+  "parser": "typescript-eslint-parser",
+  "plugins": ["react", "typescript"],
+  "env": {
+    "jest": true
+  },
+  "rules": {
+    "no-undef": 0,
+    "typescript/class-name-casing": 2,
+    "class-methods-use-this": "off",
+    "prefer-rest-params": "off",
+    "arrow-body-style": "warn",
+    "react/jsx-filename-extension": [
+      2,
+      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    "taro/custom-component-children": "off",
+    "no-unused-vars": ["error", { "varsIgnorePattern": "Taro" }]
+  },
+  "overrides": [
+    {
+      "files": ["build/*.js"],
+      "rules": {
+        "import/no-commonjs": "off"
+      }
+    }
+  ]
+}

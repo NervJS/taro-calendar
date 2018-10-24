@@ -1,0 +1,6 @@
+node_modules/
+dist/
+coverage/
+.vscode/
+jest.config.js
+__mock__/

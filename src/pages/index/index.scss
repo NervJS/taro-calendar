@@ -1,0 +1,28 @@
+.main-page {
+  &__header {
+    font-size: 40px;
+    margin: 40px 0;
+    text-align: center;
+
+    .header-title {
+      padding-bottom: 10px;
+      position: relative;
+
+      &::before {
+        content: " ";
+        position: absolute;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        background-color: #6190e8;
+
+        // prettier-ignore
+        height: 1PX;
+      }
+    }
+  }
+
+  &__body {
+    text-align: center;
+  }
+}
