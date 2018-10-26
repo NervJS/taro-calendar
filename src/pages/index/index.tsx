@@ -3,7 +3,7 @@ import { View, Text } from '@tarojs/components'
 
 import './index.scss'
 
-import AtCalendar from '../../components/index'
+import AtCalendar from '../../components/calendar/index'
 
 export default class Index extends Component {
   config: Config = {
@@ -27,7 +27,7 @@ export default class Index extends Component {
           <Text className='header-title'>Taro 日历组件</Text>
         </View>
         <View className='main-page__body'>
-          <AtCalendar title='Hello World' />
+          <AtCalendar minDate='2018/8/20' maxDate='2018/11/11' />
         </View>
       </View>
     )

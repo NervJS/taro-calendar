@@ -1,0 +1,15 @@
+@import "../../../style/mixins/index.scss";
+
+.at-calendar__main {
+  .main__body {
+    @include display-flex;
+
+    &--slider {
+      transform: translateX(-100%);
+    }
+
+    .body__slider {
+      @include flex(0 0 100%);
+    }
+  }
+}

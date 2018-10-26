@@ -7,6 +7,7 @@
   },
   "rules": {
     "no-undef": 0,
+    "no-unused-vars": 0,
     "typescript/class-name-casing": 2,
     "class-methods-use-this": "off",
     "prefer-rest-params": "off",
@@ -15,8 +16,7 @@
       2,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
-    "taro/custom-component-children": "off",
-    "no-unused-vars": ["error", { "varsIgnorePattern": "Taro" }]
+    "taro/custom-component-children": "off"
   },
   "overrides": [
     {

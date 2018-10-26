@@ -1,0 +1,52 @@
+@import "../../../style/mixins/index.scss";
+
+$size: 72px;
+
+.at-calendar__group {
+  .group__flex {
+    @include display-flex;
+    @include align-items();
+
+    height: $size;
+    color: #7c86a2;
+
+    &-item {
+      @include flex(0 0 calc(100% / 7));
+
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .item {
+      position: relative;
+
+      &__container {
+        @include align-items(center);
+        @include display-flex;
+
+        width: $size;
+        height: $size;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 50%;
+
+        &-text {
+          @include flex;
+        }
+      }
+    }
+  }
+}
+
+.at-calendar__group .group__flex .group__flex-item {
+  &--disabled {
+    color: #e1e4e7;
+  }
+
+  &--active {
+    .item__container {
+      color: white;
+      background-color: rgba($color: #78a4fa, $alpha: 0.5);
+    }
+  }
+}
