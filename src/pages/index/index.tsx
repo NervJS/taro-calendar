@@ -34,6 +34,15 @@ export default class Index extends Component {
               marks={[{ value: '2018/10/31' }]}
             />
           </View>
+
+          <View className='example'>
+            <AtCalendar
+              isSlider
+              minDate='2018/8/20'
+              maxDate='2018/11/11'
+              marks={[{ value: '2018/10/31' }]}
+            />
+          </View>
         </View>
       </View>
     )

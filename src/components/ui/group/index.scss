@@ -3,65 +3,65 @@
 $size: 72px;
 $markSize: 8px;
 
-.at-calendar__group {
-  .group__flex {
-    @include display-flex;
-    @include align-items();
+// .at-calendar__group {
+.group__flex {
+  @include display-flex;
+  @include align-items();
 
-    height: $size;
-    color: #7c86a2;
+  height: $size;
+  color: #7c86a2;
 
-    &-item {
-      @include flex(0 0 calc(100% / 7));
+  &-item {
+    @include flex(0 0 calc(100% / 7));
 
-      font-size: 30px;
-      text-align: center;
+    font-size: 30px;
+    text-align: center;
+  }
+
+  .item {
+    position: relative;
+
+    &__container {
+      @include align-items(center);
+      @include display-flex;
+
+      width: $size;
+      height: $size;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 50%;
+
+      &-text {
+        @include flex;
+      }
     }
 
-    .item {
-      position: relative;
+    &__extra {
+      &-marks {
+        position: absolute;
+        bottom: 5px;
+        line-height: 0;
+        left: 50%;
+        transform: translateX(-50%);
 
-      &__container {
-        @include align-items(center);
-        @include display-flex;
+        .mark {
+          width: $markSize;
+          height: $markSize;
+          margin-right: 4px;
+          display: inline-block;
+          background-color: black;
+          border-radius: 50%;
+          overflow: hidden;
 
-        width: $size;
-        height: $size;
-        margin-left: auto;
-        margin-right: auto;
-        border-radius: 50%;
-
-        &-text {
-          @include flex;
-        }
-      }
-
-      &__extra {
-        &-marks {
-          position: absolute;
-          bottom: 5px;
-          line-height: 0;
-          left: 50%;
-          transform: translateX(-50%);
-
-          .mark {
-            width: $markSize;
-            height: $markSize;
-            margin-right: 4px;
-            display: inline-block;
-            background-color: black;
-            border-radius: 50%;
-            overflow: hidden;
-
-            &:last-child {
-              margin-right: 0;
-            }
+          &:last-child {
+            margin-right: 0;
           }
         }
       }
     }
   }
 }
+// }
 
 .at-calendar__group .group__flex .group__flex-item {
   &--active {

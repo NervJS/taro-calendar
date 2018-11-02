@@ -4,6 +4,7 @@
   .main__body {
     @include display-flex;
 
+
     &--animate {
       transition: transform 300ms cubic-bezier(0.36, 0.66, 0.04, 1);
     }

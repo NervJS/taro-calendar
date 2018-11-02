@@ -95,7 +95,7 @@ export default function generateCalendarGroup (
       list.push(item)
     }
 
-    return _chunk(list, 7)
+    return list
   }
 }
 

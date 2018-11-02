@@ -3,6 +3,7 @@
 import dayjs from 'dayjs'
 import classnames from 'classnames'
 import _chunk from 'lodash/chunk'
+import _throttle from 'lodash/throttle'
 
 import Taro from '@tarojs/taro'
 import bind from 'bind-decorator'
@@ -138,8 +139,7 @@ export default class AtCalendarBody extends Taro.Component<
     this.startX = e.touches[0].clientX
   }
 
-  @bind
-  private handleTouchMove (e: ITouchEvent) {
+  private handleTouchMove = (e: ITouchEvent) => {
     if (!this.props.isSlider) {
       return
     }
@@ -151,7 +151,6 @@ export default class AtCalendarBody extends Taro.Component<
     this.setState({
       offsetSize
     })
-  }
 
   private animateMoveSlide (offset: number, callback?: Function) {
     this.setState(
@@ -218,15 +217,16 @@ export default class AtCalendarBody extends Taro.Component<
       >
         <AtCalendarHeader />
         <View
-          className={classnames('main__body main__body--slider body', {
+          className={classnames('main__body  body', {
+            'main__body--slider': isSlider,
             'main__body--animate': isAnimate
           })}
           style={{
             transform: isSlider
-              ? `translateX(calc(-100% + ${offsetSize}px))`
+              ? `translateX(-100%) translate3d(${offsetSize},0,0)`
               : '',
             WebkitTransform: isSlider
-              ? `translateX(calc(-100% + ${offsetSize}px))`
+              ? `translateX(-100%) translate3d(${offsetSize}px,0,0)`
               : ''
           }}
         >

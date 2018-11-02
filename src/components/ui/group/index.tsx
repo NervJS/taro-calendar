@@ -38,39 +38,56 @@ export default class AtCalendarGroup extends Taro.Component<Props> {
     if (!groupData || groupData.length === 0) return null
 
     return (
-      <View className='at-calendar__group group'>
+      <View className='group__flex'>
         {groupData.map((row, rowIndex) => (
-          <View key={rowIndex} className='group__flex'>
-            {row.map((col, colIndex) => (
-              <View
-                key={colIndex}
-                onClick={this.handleClick.bind(this, col)}
-                onLongClick={this.handleLongClick.bind(this, col)}
-                className={classnames('group__flex-item item', {
-                  'group__flex-item--today': col.isToday,
-                  'group__flex-item--active': col.isActive,
-                  'group__flex-item--blur':
-                    col.isDisabled ||
-                    col.type === constant.TYPE_PRE_MONTH ||
-                    col.type === constant.TYPE_NEXT_MONTH
-                })}
-              >
-                <View className='item__container'>
-                  <View className='item__container-text'>{col.text}</View>
-                </View>
-
-                {col.marks && col.marks.length > 0 ? (
-                  <View className='item__extra-marks'>
-                    {col.marks.map((mark, key) => (
-                      <Text key={key} className='mark' />
-                    ))}
-                  </View>
-                ) : null}
-              </View>
-            ))}
+          <View
+            key={rowIndex}
+            onClick={this.handleClick.bind(this, row)}
+            onLongClick={this.handleLongClick.bind(this, row)}
+            className={classnames('group__flex-item item', {
+              'group__flex-item--today': row.isToday,
+              'group__flex-item--active': row.isActive,
+              'group__flex-item--blur':
+                row.isDisabled ||
+                row.type === constant.TYPE_PRE_MONTH ||
+                row.type === constant.TYPE_NEXT_MONTH
+            })}
+          >
+            <View className='item__container'>
+              <View className='item__container-text'>{row.text}</View>
+            </View>
           </View>
         ))}
       </View>
     )
   }
 }
+
+// {col.marks && col.marks.length > 0 ? (
+//   <View className='item__extra-marks'>
+//     {col.marks.map((mark, key) => (
+//       <Text key={key} className='mark' />
+//     ))}
+//   </View>
+// ) : null}
+
+// {row.map((col, colIndex) => (
+//   <View
+//     key={colIndex}
+//     onClick={this.handleClick.bind(this, col)}
+//     onLongClick={this.handleLongClick.bind(this, col)}
+//     className={classnames('group__flex-item item', {
+//       'group__flex-item--today': col.isToday,
+//       'group__flex-item--active': col.isActive,
+//       'group__flex-item--blur':
+//         col.isDisabled ||
+//         col.type === constant.TYPE_PRE_MONTH ||
+//         col.type === constant.TYPE_NEXT_MONTH
+//     })}
+//   >
+//     <View className='item__container'>
+//       <View className='item__container-text'>{col.text}</View>
+//     </View>
+
+//   </View>
+// ))}
