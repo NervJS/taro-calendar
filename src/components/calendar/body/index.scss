@@ -1,11 +1,11 @@
 @import "../../../style/mixins/index.scss";
 
-.at-calendar__main {
+.at-calendar-slider__main {
   .main__body {
     @include display-flex;
 
-    &--slider {
-      transform: translateX(-100%);
+    &--animate {
+      transition: transform 300ms cubic-bezier(0.36, 0.66, 0.04, 1);
     }
 
     .body__slider {

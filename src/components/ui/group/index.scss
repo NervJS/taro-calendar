@@ -1,6 +1,7 @@
 @import "../../../style/mixins/index.scss";
 
 $size: 72px;
+$markSize: 8px;
 
 .at-calendar__group {
   .group__flex {
@@ -34,19 +35,54 @@ $size: 72px;
           @include flex;
         }
       }
+
+      &__extra {
+        &-marks {
+          position: absolute;
+          bottom: 5px;
+          line-height: 0;
+          left: 50%;
+          transform: translateX(-50%);
+
+          .mark {
+            width: $markSize;
+            height: $markSize;
+            margin-right: 4px;
+            display: inline-block;
+            background-color: black;
+            border-radius: 50%;
+            overflow: hidden;
+
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+      }
     }
   }
 }
 
 .at-calendar__group .group__flex .group__flex-item {
-  &--disabled {
-    color: #e1e4e7;
-  }
-
   &--active {
     .item__container {
       color: white;
       background-color: rgba($color: #78a4fa, $alpha: 0.5);
     }
+
+    .item__extra-marks {
+      .mark {
+        background-color: white;
+      }
+    }
+  }
+
+  &--today {
+    color: #78a4fa;
+  }
+
+  &--blur {
+    color: black;
+    opacity: 0.2;
   }
 }

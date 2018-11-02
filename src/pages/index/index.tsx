@@ -27,7 +27,13 @@ export default class Index extends Component {
           <Text className='header-title'>Taro 日历组件</Text>
         </View>
         <View className='main-page__body'>
-          <AtCalendar minDate='2018/8/20' maxDate='2018/11/11' />
+          <View className='example'>
+            <AtCalendar
+              minDate='2018/8/20'
+              maxDate='2018/11/11'
+              marks={[{ value: '2018/10/31' }]}
+            />
+          </View>
         </View>
       </View>
     )

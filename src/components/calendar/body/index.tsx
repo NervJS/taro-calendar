@@ -1,112 +1,240 @@
 /// <reference path='../../types.d.ts' />
 
 import dayjs from 'dayjs'
-import bind from 'bind-decorator'
+import classnames from 'classnames'
 import _chunk from 'lodash/chunk'
 
 import Taro from '@tarojs/taro'
+import bind from 'bind-decorator'
 import { View } from '@tarojs/components'
+import { ITouchEvent } from '@tarojs/components/types/common'
 
-import AtCalendarHeader from '../../base/header/index'
-import AtCalendarGroup from '../../base/group/index'
+import AtCalendarGroup from '../../ui/group/index'
+import AtCalendarHeader from '../../ui/header/index'
+import generateCalendarGroup from '../../common/helper'
+import { Props, State } from './interface'
 
 import './index.scss'
 
+const ANIMTE_DURATION = 300
+
+const defaultProps: Partial<Props> = {
+  marks: [],
+  format: 'YYYY-MM-DD',
+  generateDate: Date.now(),
+  selectedDate: Date.now(),
+  onClick: () => {}
+}
+
 export default class AtCalendarBody extends Taro.Component<
-  Calendar.Body.Props,
-  Calendar.Body.State
+  Props,
+  Readonly<State>
   > {
-  readonly state: Readonly<Calendar.Body.State> = {}
+  static defaultProps: Partial<Props> = defaultProps
+
+  private startX: number = 0
+  private maxWidth: number = 0
+  private isTouching: boolean = false
+
+  private generateFunc: (
+    generateDate: DateArg,
+    selectedDate: DateArg,
+    isShowStatus?: boolean
+  ) => Group<Item>
+
+  constructor (props) {
+    super(...arguments)
+    const {
+      marks,
+      format,
+      minDate,
+      maxDate,
+      generateDate,
+      selectedDate
+    } = props
+
+    this.generateFunc = generateCalendarGroup({
+      format,
+      minDate,
+      maxDate,
+      marks
+    })
+    const groupInfo = this.getGroups(generateDate, selectedDate)
+
+    this.state = {
+      offsetSize: 0,
+      isAnimate: false,
+      ...groupInfo
+    }
+  }
+
+  private getGroups (generateDate: DateArg, selectedDate: DateArg) {
+    const dayjsDate = dayjs(generateDate)
+    const preDateGroup: Group<Item> = this.generateFunc(
+      dayjsDate.subtract(1, 'month').valueOf(),
+      selectedDate
+    )
+
+    const nowDateGroup: Group<Item> = this.generateFunc(
+      generateDate,
+      selectedDate,
+      true
+    )
+
+    const nextDateGroup: Group<Item> = this.generateFunc(
+      dayjsDate.add(1, 'month').valueOf(),
+      selectedDate
+    )
+
+    return {
+      preDateGroup,
+      nowDateGroup,
+      nextDateGroup
+    }
+  }
+
+  componentWillReceiveProps (nextProps: Props) {
+    const {
+      marks,
+      format,
+      minDate,
+      maxDate,
+      generateDate,
+      selectedDate
+    } = nextProps
+
+    this.generateFunc = generateCalendarGroup({
+      format,
+      minDate,
+      maxDate,
+      marks
+    })
+    const groupInfo = this.getGroups(generateDate, selectedDate)
+
+    this.setState({
+      offsetSize: 0,
+      ...groupInfo
+    })
+  }
+
+  componentDidMount () {
+    const selector = Taro.createSelectorQuery().in(this.$scope)
+    selector
+      .select('.at-calendar-slider__main')
+      .fields({
+        size: true
+      })
+      .exec(res => {
+        this.maxWidth = res[0].width
+      })
+  }
 
   @bind
-  private generateCalendarGroup (
-    generateDate: Calendar.DateArg,
-    currentDate: Calendar.DateArg,
-    format: string,
-    options: Calendar.Body.Options
-  ): Calendar.Body.Group<Calendar.Body.Item> {
-    const { minDate, maxDate } = options
-
-    const date = dayjs(generateDate)
-    const nowDate = dayjs(currentDate)
-
-    const dayjsMinDate = dayjs(minDate)
-    const dayjsMaxDate = dayjs(maxDate)
-
-    // 获取生成日期的第一天 和 最后一天
-    const firstDate = date.startOf('month')
-    const lastDate = date.endOf('month')
-
-    const preMonthDate = date.subtract(1, 'month')
-
-    const list: Calendar.Body.List<Calendar.Body.Item> = []
-
-    const nowMonthDays: number = date.daysInMonth() // 获取这个月有多少天
-    const preMonthLastDay = preMonthDate.endOf('month').day() // 获取上个月最后一天是周几
-
-    // 生成上个月的日期
-    for (let i = 1; i <= preMonthLastDay + 1; i++) {
-      const thisDate = firstDate.subtract(i, 'day')
-      list.push({
-        isDisabled: true,
-        text: thisDate.date(),
-        value: thisDate.format(format)
-      })
+  private handleTouchStart (e: ITouchEvent) {
+    if (!this.props.isSlider) {
+      return
     }
-    list.reverse()
+    this.isTouching = true
+    this.startX = e.touches[0].clientX
+  }
 
-    // 生成这个月的日期
-    for (let i = 0; i < nowMonthDays; i++) {
-      const thisDate = firstDate.add(i, 'day')
-      const duration = thisDate.diff(nowDate, 'day', true)
-      const isDisabled =
-        !!(minDate && thisDate.isBefore(dayjsMinDate)) ||
-        !!(maxDate && thisDate.isAfter(dayjsMaxDate))
-      const item = {
-        isDisabled,
-        text: thisDate.date(),
-        value: thisDate.format(format),
-        isActive: duration < 0 && duration > -1
+  @bind
+  private handleTouchMove (e: ITouchEvent) {
+    if (!this.props.isSlider) {
+      return
+    }
+    if (!this.isTouching) return
+
+    const { clientX } = e.touches[0]
+    const offsetSize = clientX - this.startX
+
+    this.setState({
+      offsetSize
+    })
+  }
+
+  private animateMoveSlide (offset: number, callback?: Function) {
+    this.setState(
+      {
+        isAnimate: true
+      },
+      () => {
+        this.setState({
+          offsetSize: offset
+        })
+        setTimeout(() => {
+          this.setState(
+            {
+              isAnimate: false
+            },
+            () => {
+              callback && callback()
+            }
+          )
+        }, ANIMTE_DURATION)
       }
-      list.push(item)
+    )
+  }
+
+  @bind
+  private handleTouchEnd () {
+    if (!this.props.isSlider) {
+      return
     }
 
-    // 生成下个月的日期
-    let i = 1
-    const total = Math.ceil(list.length / 7) * 7
-    while (list.length < total) {
-      const thisDate = lastDate.add(i++, 'day')
-      list.push({
-        isDisabled: true,
-        text: thisDate.date(),
-        value: thisDate.format(format)
+    const { offsetSize } = this.state
+
+    this.isTouching = false
+    const isRight = offsetSize > 0
+
+    const breakpoint = this.maxWidth / 2
+    const absOffsetSize = Math.abs(offsetSize)
+
+    if (absOffsetSize > breakpoint) {
+      const res = isRight ? this.maxWidth : -this.maxWidth
+      return this.animateMoveSlide(res, () => {
+        isRight ? this.props.onPreMonth() : this.props.onNextMonth()
       })
     }
-
-    return _chunk(list, 7)
+    this.animateMoveSlide(0)
   }
 
   render () {
+    const { isSlider } = this.props
     const {
-      generateDate,
-      currentDate,
-      format,
-      mode,
-      minDate,
-      maxDate
-    } = this.props
-
-    const nowDateGroup: Calendar.Body.Group<
-    Calendar.Body.Item
-    > = this.generateCalendarGroup(generateDate, currentDate, format, {
-      minDate,
-      maxDate
-    })
+      isAnimate,
+      offsetSize,
+      preDateGroup,
+      nowDateGroup,
+      nextDateGroup
+    } = this.state
 
     return (
-      <View className='at-calendar__main main'>
+      <View
+        className='at-calendar-slider__main main'
+        onTouchEnd={this.handleTouchEnd}
+        onTouchMove={this.handleTouchMove}
+        onTouchStart={this.handleTouchStart}
+      >
         <AtCalendarHeader />
-        <View className='main__body body body'>
+        <View
+          className={classnames('main__body main__body--slider body', {
+            'main__body--animate': isAnimate
+          })}
+          style={{
+            transform: isSlider
+              ? `translateX(calc(-100% + ${offsetSize}px))`
+              : '',
+            WebkitTransform: isSlider
+              ? `translateX(calc(-100% + ${offsetSize}px))`
+              : ''
+          }}
+        >
+          {isSlider ? (
+            <View className='body__slider body__slider--pre'>
+              <AtCalendarGroup groupData={preDateGroup} />
+            </View>
+          ) : null}
           <View className='body__slider body__slider--now'>
             <AtCalendarGroup
               groupData={nowDateGroup}
@@ -114,6 +242,11 @@ export default class AtCalendarBody extends Taro.Component<
               onLongClick={this.props.onLongClick}
             />
           </View>
+          {isSlider ? (
+            <View className='body__slider body__slider--next'>
+              <AtCalendarGroup groupData={nextDateGroup} />
+            </View>
+          ) : null}
         </View>
       </View>
     )

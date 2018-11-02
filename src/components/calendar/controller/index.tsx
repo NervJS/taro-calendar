@@ -1,35 +1,32 @@
-/// <reference path='../../types.d.ts' />
-
+import dayjs from 'dayjs'
 import classnames from 'classnames'
 
-import dayjs from 'dayjs'
 import Taro from '@tarojs/taro'
 import { Text, View } from '@tarojs/components'
 
+import { Props, State } from './interface'
+
 import './index.scss'
 
-export default class AtCalendarController extends Taro.Component<
-  Calendar.Controller.Props,
-  Calendar.Controller.State
-  > {
-  static defaultProps: Partial<Calendar.Controller.Props> = {}
+export default class AtCalendarController extends Taro.Component<Props, State> {
+  static defaultProps: Partial<Props> = {
+    generateDate: Date.now()
+  }
 
-  readonly state: Readonly<Calendar.Controller.State> = {}
+  readonly state: Readonly<State> = {}
 
   render () {
     const { generateDate, minDate, maxDate } = this.props
 
+    const dayjsDate = dayjs(generateDate)
+    const dayjsMindate = dayjs(minDate)
+    const dayjsMaxdate = dayjs(maxDate)
+
     const isMinMonth =
-      !!minDate &&
-      dayjs(minDate)
-        .startOf('month')
-        .isSame(dayjs(generateDate))
+      dayjsMindate.isValid() && dayjsMindate.startOf('month').isSame(dayjsDate)
 
     const isMaxMonth =
-      !!maxDate &&
-      dayjs(maxDate)
-        .startOf('month')
-        .isSame(dayjs(generateDate))
+      dayjsMaxdate.isValid() && dayjsMaxdate.startOf('month').isSame(dayjsDate)
 
     return (
       <View className='at-calendar__controller controller'>
@@ -40,7 +37,7 @@ export default class AtCalendarController extends Taro.Component<
           onClick={this.props.onClickPre.bind(this, isMinMonth)}
         />
         <Text className='controller__info'>
-          {dayjs(generateDate).format('YYYY年MM月')}
+          {dayjsDate.format('YYYY年MM月')}
         </Text>
         <View
           className={classnames('controller__arrow controller__arrow--right', {
