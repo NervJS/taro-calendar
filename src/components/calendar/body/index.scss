@@ -4,13 +4,26 @@
   .main__body {
     @include display-flex;
 
-
     &--animate {
       transition: transform 300ms cubic-bezier(0.36, 0.66, 0.04, 1);
     }
 
     .body__slider {
       @include flex(0 0 100%);
+    }
+  }
+
+  .body {
+    height: 190PX;
+
+    &__swiper--h5 {
+      .swiper__wrapper {
+        height: 100% !important;
+      }
+
+      .body__slider {
+        height: 100% !important;
+      }
     }
   }
 }

@@ -29,11 +29,9 @@ export interface State {
 
   offsetSize: number
 
-  preDateGroup: Group<Item> | []
+  preList: List<Item> | []
 
-  nowDateGroup: Group<Item> | []
+  nowList: List<Item> | []
 
-  nextDateGroup: Group<Item> | []
+  nextList: List<Item> | []
 }
-
-export type PropsWithDefaults = Props & DefaultProps

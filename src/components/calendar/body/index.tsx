@@ -7,10 +7,10 @@ import _throttle from 'lodash/throttle'
 
 import Taro from '@tarojs/taro'
 import bind from 'bind-decorator'
-import { View } from '@tarojs/components'
+import { View, Swiper, SwiperItem } from '@tarojs/components'
 import { ITouchEvent } from '@tarojs/components/types/common'
 
-import AtCalendarGroup from '../../ui/group/index'
+import AtCalendarGroup from '../../ui/list/index'
 import AtCalendarHeader from '../../ui/header/index'
 import generateCalendarGroup from '../../common/helper'
 import { Props, State } from './interface'
@@ -41,7 +41,7 @@ export default class AtCalendarBody extends Taro.Component<
     generateDate: DateArg,
     selectedDate: DateArg,
     isShowStatus?: boolean
-  ) => Group<Item>
+  ) => List<Item>
 
   constructor (props) {
     super(...arguments)
@@ -71,26 +71,26 @@ export default class AtCalendarBody extends Taro.Component<
 
   private getGroups (generateDate: DateArg, selectedDate: DateArg) {
     const dayjsDate = dayjs(generateDate)
-    const preDateGroup: Group<Item> = this.generateFunc(
+    const preList: List<Item> = this.generateFunc(
       dayjsDate.subtract(1, 'month').valueOf(),
       selectedDate
     )
 
-    const nowDateGroup: Group<Item> = this.generateFunc(
+    const nowList: List<Item> = this.generateFunc(
       generateDate,
       selectedDate,
       true
     )
 
-    const nextDateGroup: Group<Item> = this.generateFunc(
+    const nextList: List<Item> = this.generateFunc(
       dayjsDate.add(1, 'month').valueOf(),
       selectedDate
     )
 
     return {
-      preDateGroup,
-      nowDateGroup,
-      nextDateGroup
+      preList,
+      nowList,
+      nextList
     }
   }
 
@@ -151,6 +151,7 @@ export default class AtCalendarBody extends Taro.Component<
     this.setState({
       offsetSize
     })
+  }
 
   private animateMoveSlide (offset: number, callback?: Function) {
     this.setState(
@@ -200,13 +201,7 @@ export default class AtCalendarBody extends Taro.Component<
 
   render () {
     const { isSlider } = this.props
-    const {
-      isAnimate,
-      offsetSize,
-      preDateGroup,
-      nowDateGroup,
-      nextDateGroup
-    } = this.state
+    const { isAnimate, offsetSize, preList, nowList, nextList } = this.state
 
     return (
       <View
@@ -232,19 +227,19 @@ export default class AtCalendarBody extends Taro.Component<
         >
           {isSlider ? (
             <View className='body__slider body__slider--pre'>
-              <AtCalendarGroup groupData={preDateGroup} />
+              <AtCalendarGroup list={preList} />
             </View>
           ) : null}
           <View className='body__slider body__slider--now'>
             <AtCalendarGroup
-              groupData={nowDateGroup}
+              list={nowList}
               onClick={this.props.onClick}
               onLongClick={this.props.onLongClick}
             />
           </View>
           {isSlider ? (
             <View className='body__slider body__slider--next'>
-              <AtCalendarGroup groupData={nextDateGroup} />
+              <AtCalendarGroup list={nextList} />
             </View>
           ) : null}
         </View>

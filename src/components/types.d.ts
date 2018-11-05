@@ -40,8 +40,6 @@ declare global {
   }
 
   type List < T > = Array<T>
-
-  type Group < T > = Array<List<T>>
 }
 
 // import { ITouchEvent } from '@tarojs/components/types/common'
@@ -138,11 +136,11 @@ declare global {
 
 //       offsetSize: number
 
-//       preDateGroup: Group<Item> | []
+//       preDateGroup: List<Item> | []
 
-//       nowDateGroup: Group<Item> | []
+//       nowDateGroup: List<Item> | []
 
-//       nextDateGroup: Group<Item> | []
+//       nextDateGroup: List<Item> | []
 //     }
 
 //     interface Options {

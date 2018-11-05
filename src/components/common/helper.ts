@@ -1,6 +1,5 @@
 import dayjs from 'dayjs'
 import _flow from 'lodash/flow'
-import _chunk from 'lodash/chunk'
 
 import plugins from './plugins'
 import * as constant from './constant'
@@ -25,12 +24,12 @@ export default function generateCalendarGroup (
     generateDate: DateArg,
     selectedDate: DateArg,
     isShowStatus?: boolean
-  ) => Group<Item> {
+  ) => List<Item> {
   return function (
     generateDate: DateArg,
     selectedDate: DateArg,
     isShowStatus?: boolean
-  ): Group<Item> {
+  ): List<Item> {
     const date = dayjs(generateDate)
 
     const { format } = options

@@ -1,0 +1,85 @@
+@import "../../../style/mixins/index.scss";
+
+$size: 72px;
+$markSize: 8px;
+
+.at-calendar__list {
+  .flex {
+    @include display-flex;
+    @include align-items();
+    @include flex-wrap(wrap);
+
+    color: #7c86a2;
+
+    &__item {
+      @include flex(0 0 calc(100% / 7));
+
+      font-size: 30px;
+      text-align: center;
+      position: relative;
+
+      &-container {
+        @include align-items(center);
+        @include display-flex;
+
+        width: $size;
+        height: $size;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 50%;
+
+        .container-text {
+          @include flex;
+        }
+      }
+
+      &-extra {
+        .extra-marks {
+          position: absolute;
+          bottom: 5px;
+          line-height: 0;
+          left: 50%;
+          transform: translateX(-50%);
+
+          .mark {
+            width: $markSize;
+            height: $markSize;
+            margin-right: 4px;
+            display: inline-block;
+            background-color: black;
+            border-radius: 50%;
+            overflow: hidden;
+
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.at-calendar__list .flex .flex__item {
+  &--active {
+    .flex__item-container {
+      color: white;
+      background-color: rgba($color: #78a4fa, $alpha: 0.5);
+    }
+
+    .flex__item__extra {
+      .mark {
+        background-color: white;
+      }
+    }
+  }
+
+  &--today {
+    color: #78a4fa;
+  }
+
+  &--blur {
+    color: black;
+    opacity: 0.2;
+  }
+}
