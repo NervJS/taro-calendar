@@ -7,13 +7,13 @@ import _throttle from 'lodash/throttle'
 
 import Taro from '@tarojs/taro'
 import bind from 'bind-decorator'
-import { View } from '@tarojs/components'
-import { ITouchEvent } from '@tarojs/components/types/common'
+import { View, Swiper, SwiperItem } from '@tarojs/components'
+import { ITouchEvent, BaseEvent } from '@tarojs/components/types/common'
 
 import AtCalendarGroup from '../../ui/list/index'
 import AtCalendarHeader from '../../ui/header/index'
 import generateCalendarGroup from '../../common/helper'
-import { Props, State } from './interface'
+import { Props, State, ListGroup } from './interface'
 
 import './index.scss'
 
@@ -33,6 +33,8 @@ export default class AtCalendarBody extends Taro.Component<
   > {
   static defaultProps: Partial<Props> = defaultProps
 
+  private action: string = ''
+  private current: number = 1
   private startX: number = 0
   private maxWidth: number = 0
   private isTouching: boolean = false
@@ -60,17 +62,19 @@ export default class AtCalendarBody extends Taro.Component<
       maxDate,
       marks
     })
-    const groupInfo = this.getGroups(generateDate, selectedDate)
+    const listGroup = this.getGroups(generateDate, selectedDate)
 
     this.state = {
       offsetSize: 0,
       isAnimate: false,
-      ...groupInfo
+      listGroup
     }
   }
 
-  private getGroups (generateDate: DateArg, selectedDate: DateArg) {
+  @bind
+  private getGroups (generateDate: DateArg, selectedDate: DateArg): ListGroup {
     const dayjsDate = dayjs(generateDate)
+    const arr: ListGroup = []
     const preList: List<Item> = this.generateFunc(
       dayjsDate.subtract(1, 'month').valueOf(),
       selectedDate
@@ -87,11 +91,14 @@ export default class AtCalendarBody extends Taro.Component<
       selectedDate
     )
 
-    return {
-      preList,
-      nowList,
-      nextList
-    }
+    const preListIndex = this.current === 0 ? 2 : this.current - 1
+    const nextListIndex = this.current === 2 ? 0 : this.current + 1
+
+    arr[preListIndex] = preList
+    arr[this.current] = nowList
+    arr[nextListIndex] = nextList
+
+    return arr
   }
 
   componentWillReceiveProps (nextProps: Props) {
@@ -110,11 +117,11 @@ export default class AtCalendarBody extends Taro.Component<
       maxDate,
       marks
     })
-    const groupInfo = this.getGroups(generateDate, selectedDate)
+    const listGroup = this.getGroups(generateDate, selectedDate)
 
     this.setState({
       offsetSize: 0,
-      ...groupInfo
+      listGroup
     })
   }
 
@@ -199,50 +206,90 @@ export default class AtCalendarBody extends Taro.Component<
     this.animateMoveSlide(0)
   }
 
+  @bind
+  private handleChange (e: BaseEvent & { detail: { current: number } }) {
+    const { current } = e.detail
+    const distance = current - this.current
+    this.action = distance === 1 || distance === -2 ? 'nextMonth' : 'preMonth'
+    this.current = current
+
+    console.log(this.action, this.current)
+    setTimeout(() => {
+      this.action === 'nextMonth'
+        ? this.props.onNextMonth()
+        : this.props.onPreMonth()
+    }, 500)
+  }
+
   render () {
     const { isSlider } = this.props
-    const { isAnimate, offsetSize, preList, nowList, nextList } = this.state
+    const { isAnimate, offsetSize, listGroup } = this.state
+
+    /* 需要 Taro 组件库维护 Swiper 使 小程序 和 H5 的表现保持一致  */
+    if (process.env.TARO_ENV === 'h5') {
+      return (
+        <View
+          className='at-calendar-slider__main main'
+          onTouchEnd={this.handleTouchEnd}
+          onTouchMove={this.handleTouchMove}
+          onTouchStart={this.handleTouchStart}
+        >
+          <AtCalendarHeader />
+          <View
+            className={classnames('main__body  body', {
+              'main__body--slider': isSlider,
+              'main__body--animate': isAnimate
+            })}
+            style={{
+              transform: isSlider
+                ? `translateX(-100%) translate3d(${offsetSize},0,0)`
+                : '',
+              WebkitTransform: isSlider
+                ? `translateX(-100%) translate3d(${offsetSize}px,0,0)`
+                : ''
+            }}
+          >
+            {isSlider ? (
+              <View className='body__slider body__slider--pre'>
+                <AtCalendarGroup list={listGroup[0]} />
+              </View>
+            ) : null}
+            <View className='body__slider body__slider--now'>
+              <AtCalendarGroup
+                list={listGroup[1]}
+                onClick={this.props.onClick}
+                onLongClick={this.props.onLongClick}
+              />
+            </View>
+            {isSlider ? (
+              <View className='body__slider body__slider--next'>
+                <AtCalendarGroup list={listGroup[2]} />
+              </View>
+            ) : null}
+          </View>
+        </View>
+      )
+    }
 
     return (
-      <View
-        className='at-calendar-slider__main main'
-        onTouchEnd={this.handleTouchEnd}
-        onTouchMove={this.handleTouchMove}
-        onTouchStart={this.handleTouchStart}
-      >
+      <View className='at-calendar-slider__main main'>
         <AtCalendarHeader />
-        <View
-          className={classnames('main__body  body', {
-            'main__body--slider': isSlider,
-            'main__body--animate': isAnimate
-          })}
-          style={{
-            transform: isSlider
-              ? `translateX(-100%) translate3d(${offsetSize},0,0)`
-              : '',
-            WebkitTransform: isSlider
-              ? `translateX(-100%) translate3d(${offsetSize}px,0,0)`
-              : ''
-          }}
+        <Swiper
+          circular
+          current={1}
+          className='main__body'
+          onChange={this.handleChange}
         >
-          {isSlider ? (
-            <View className='body__slider body__slider--pre'>
-              <AtCalendarGroup list={preList} />
-            </View>
-          ) : null}
-          <View className='body__slider body__slider--now'>
-            <AtCalendarGroup
-              list={nowList}
-              onClick={this.props.onClick}
-              onLongClick={this.props.onLongClick}
-            />
-          </View>
-          {isSlider ? (
-            <View className='body__slider body__slider--next'>
-              <AtCalendarGroup list={nextList} />
-            </View>
-          ) : null}
-        </View>
+          {listGroup.map((item, key) => (
+            <SwiperItem key={key} itemId={key.toString()}>
+              <AtCalendarGroup
+                list={item}
+                onClick={this.props.onClick}
+                onLongClick={this.props.onLongClick}
+              />
+            </SwiperItem>
+          ))}
+        </Swiper>
       </View>
     )
   }

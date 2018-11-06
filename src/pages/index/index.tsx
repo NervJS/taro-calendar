@@ -35,17 +35,11 @@ export default class Index extends Component {
 
   @bind
   handleDayClick (...arg) {
-    Taro.showToast({
-      title: 'long click'
-    })
     console.log('handleDayClick', arg)
   }
 
   @bind
   handleDayLongClick (...arg) {
-    Taro.showToast({
-      title: 'long click'
-    })
     console.log('handleDayLongClick', arg)
   }
 

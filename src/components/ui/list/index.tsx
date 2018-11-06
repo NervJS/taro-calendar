@@ -44,41 +44,39 @@ export default class AtCalendarGroup extends Taro.Component<Props> {
     if (!list || list.length === 0) return null
 
     return (
-      <View className='at-calendar__list'>
-        <View className='flex'>
-          {list.map((item, index) => (
-            <View
-              key={index}
-              onClick={this.handleClick.bind(this, item)}
-              onLongPress={this.handleLongClick.bind(this, item)}
-              className={classnames(
-                'flex__item',
-                `flex__item--${MAP[item.type]}`,
-                {
-                  'flex__item--today': item.isToday,
-                  'flex__item--active': item.isActive,
-                  'flex__item--blur':
-                    item.isDisabled ||
-                    item.type === constant.TYPE_PRE_MONTH ||
-                    item.type === constant.TYPE_NEXT_MONTH
-                }
-              )}
-            >
-              <View className='flex__item-container'>
-                <View className='container-text'>{item.text}</View>
-              </View>
-              <View className='flex__item-extra extra'>
-                {item.marks && item.marks.length > 0 ? (
-                  <View className='extra-marks'>
-                    {item.marks.map((mark, key) => (
-                      <Text key={key} className='mark' />
-                    ))}
-                  </View>
-                ) : null}
-              </View>
+      <View className='at-calendar__list flex'>
+        {list.map((item, index) => (
+          <View
+            key={index}
+            onClick={this.handleClick.bind(this, item)}
+            onLongPress={this.handleLongClick.bind(this, item)}
+            className={classnames(
+              'flex__item',
+              `flex__item--${MAP[item.type]}`,
+              {
+                'flex__item--today': item.isToday,
+                'flex__item--active': item.isActive,
+                'flex__item--blur':
+                  item.isDisabled ||
+                  item.type === constant.TYPE_PRE_MONTH ||
+                  item.type === constant.TYPE_NEXT_MONTH
+              }
+            )}
+          >
+            <View className='flex__item-container'>
+              <View className='container-text'>{item.text}</View>
             </View>
-          ))}
-        </View>
+            <View className='flex__item-extra extra'>
+              {item.marks && item.marks.length > 0 ? (
+                <View className='extra-marks'>
+                  {item.marks.map((mark, key) => (
+                    <Text key={key} className='mark' />
+                  ))}
+                </View>
+              ) : null}
+            </View>
+          </View>
+        ))}
       </View>
     )
   }

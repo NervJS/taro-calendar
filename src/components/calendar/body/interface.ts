@@ -1,5 +1,7 @@
 import { DefaultProps as _DefaultProps } from '../interface'
 
+export type ListGroup = Array<List<Item>>
+
 export interface Props {
   format: string
 
@@ -29,9 +31,5 @@ export interface State {
 
   offsetSize: number
 
-  preList: List<Item> | []
-
-  nowList: List<Item> | []
-
-  nextList: List<Item> | []
+  listGroup: ListGroup
 }

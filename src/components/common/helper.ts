@@ -53,7 +53,8 @@ export default function generateCalendarGroup (
         text: thisDate.date(),
         type: constant.TYPE_PRE_MONTH,
         value: thisDate.format(format),
-        _value: thisDate
+        _value: thisDate,
+        marks: []
       }
 
       item = getFullItem(item, options, selectedDate, isShowStatus)
@@ -86,7 +87,8 @@ export default function generateCalendarGroup (
         text: thisDate.date(),
         type: constant.TYPE_NEXT_MONTH,
         value: thisDate.format(format),
-        _value: thisDate
+        _value: thisDate,
+        marks: []
       }
 
       item = getFullItem(item, options, selectedDate, isShowStatus)
