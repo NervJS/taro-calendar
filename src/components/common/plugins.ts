@@ -1,7 +1,5 @@
 import dayjs from 'dayjs'
 
-import * as constant from './constant'
-
 interface PluginArg {
   item: Item
 
@@ -46,6 +44,7 @@ export function handleDisabled (args: PluginArg): Item {
     !!(minDate && _value.isBefore(dayjsMinDate)) ||
     !!(maxDate && _value.isAfter(dayjsMaxDate))
 
+  delete item._value
   return item
 }
 

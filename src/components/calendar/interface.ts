@@ -5,13 +5,15 @@ export interface Props {
 
   maxDate?: DateArg
 
-  isSlider?: boolean
+  isSwiper?: boolean
 
   marks?: Array<Mark>
 
   monthFormat?: string
 
   hideArrow?: boolean
+
+  isVertical?: boolean
 
   currentDate?: DateArg
 
@@ -29,7 +31,7 @@ export interface Props {
 export interface DefaultProps {
   format: string
 
-  isSlider: boolean
+  isSwiper: boolean
 
   marks: Array<Mark>
 
@@ -38,6 +40,8 @@ export interface DefaultProps {
   monthFormat: string
 
   hideArrow: boolean
+
+  isVertical: boolean
 }
 
 export interface State {

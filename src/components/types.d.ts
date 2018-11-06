@@ -16,7 +16,7 @@ declare global {
 
     type: number
 
-    marks?: Array<Mark>
+    marks: Array<Mark>
 
     isActive?: boolean
 

@@ -7,11 +7,13 @@ export interface Props {
 
   marks: Array<Mark>
 
-  isSlider: boolean
+  isSwiper: boolean
 
   minDate?: DateArg
 
   maxDate?: DateArg
+
+  isVertical: boolean
 
   generateDate: DateArg
 

@@ -15,8 +15,9 @@ import './index.scss'
 
 const defaultProps: DefaultProps = {
   marks: [],
-  isSlider: false,
+  isSwiper: true,
   hideArrow: false,
+  isVertical: false,
   format: 'YYYY-MM-DD',
   currentDate: Date.now(),
   monthFormat: 'YYYY年MM月'
@@ -111,15 +112,17 @@ export default class AtCalendar extends Taro.Component<Props, State> {
   @bind
   private handleClick (item: Item) {
     const { generateDate } = this.state
-    const { isDisabled, _value } = item
+    const { isDisabled, value } = item
 
     if (isDisabled) return
 
+    const dayjsValue = dayjs(value)
+
     const _state: Partial<State> = {
-      selectedDate: _value.valueOf()
+      selectedDate: dayjsValue.valueOf()
     }
 
-    const _generateDate: Dayjs = _value.startOf('month')
+    const _generateDate: Dayjs = dayjsValue.startOf('month')
     const _generateDateValue: number = _generateDate.valueOf()
 
     if (_generateDateValue !== generateDate) {
@@ -148,8 +151,9 @@ export default class AtCalendar extends Taro.Component<Props, State> {
       format,
       minDate,
       maxDate,
-      isSlider,
+      isSwiper,
       hideArrow,
+      isVertical,
       monthFormat
     } = this.props as PropsWithDefaults
 
@@ -173,7 +177,8 @@ export default class AtCalendar extends Taro.Component<Props, State> {
             format={format}
             minDate={minDate}
             maxDate={maxDate}
-            isSlider={isSlider}
+            isSwiper={isSwiper}
+            isVertical={isVertical}
             onClick={this.handleClick}
             selectedDate={selectedDate}
             generateDate={generateDate}

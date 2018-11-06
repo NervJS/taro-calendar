@@ -50,11 +50,11 @@ export default function generateCalendarGroup (
       const thisDate = firstDate.subtract(i, 'day').startOf('day')
 
       let item = {
+        marks: [],
+        _value: thisDate,
         text: thisDate.date(),
         type: constant.TYPE_PRE_MONTH,
-        value: thisDate.format(format),
-        _value: thisDate,
-        marks: []
+        value: thisDate.format(format)
       }
 
       item = getFullItem(item, options, selectedDate, isShowStatus)
@@ -67,10 +67,11 @@ export default function generateCalendarGroup (
     for (let i = 0; i < nowMonthDays; i++) {
       const thisDate = firstDate.add(i, 'day').startOf('day')
       let item = {
+        marks: [],
+        _value: thisDate,
         text: thisDate.date(),
         type: constant.TYPE_NOW_MONTH,
-        value: thisDate.format(format),
-        _value: thisDate
+        value: thisDate.format(format)
       }
 
       item = getFullItem(item, options, selectedDate, isShowStatus)
@@ -84,11 +85,11 @@ export default function generateCalendarGroup (
     while (list.length < total) {
       const thisDate = lastDate.add(i++, 'day').startOf('day')
       let item = {
+        marks: [],
+        _value: thisDate,
         text: thisDate.date(),
         type: constant.TYPE_NEXT_MONTH,
-        value: thisDate.format(format),
-        _value: thisDate,
-        marks: []
+        value: thisDate.format(format)
       }
 
       item = getFullItem(item, options, selectedDate, isShowStatus)
