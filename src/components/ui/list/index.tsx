@@ -23,7 +23,7 @@ export interface Props {
   onLongClick?: (item: Item) => void
 }
 
-export default class AtCalendarGroup extends Taro.Component<Props> {
+export default class AtCalendarList extends Taro.Component<Props> {
   @bind
   private handleClick (item) {
     if (_isFunction(this.props.onClick)) {

@@ -35,6 +35,7 @@ export default class AtCalendar extends Taro.Component<Props, State> {
 
   componentWillReceiveProps (nextProps) {
     const { currentDate } = nextProps
+    if (currentDate === this.props.currentDate) return
     this.setState({
       selectedDate: dayjs(currentDate)
         .startOf('day')
@@ -94,11 +95,11 @@ export default class AtCalendar extends Taro.Component<Props, State> {
 
   @bind
   private handleSelectDate (
-    e: BaseEvent & { detail: { value: Array<string> } }
+    e: BaseEvent & { detail: { value: string } }
   ) {
     const { value } = e.detail
 
-    const _generateDate: Dayjs = dayjs(value.join(''))
+    const _generateDate: Dayjs = dayjs(value)
     const _generateDateValue: number = _generateDate.valueOf()
 
     if (this.state.generateDate === _generateDateValue) return

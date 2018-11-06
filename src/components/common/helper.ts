@@ -4,6 +4,8 @@ import _flow from 'lodash/flow'
 import plugins from './plugins'
 import * as constant from './constant'
 
+const TOTAL = 7 * 6
+
 function getFullItem (
   item: Partial<Item>,
   options: GroupOptions,
@@ -81,8 +83,7 @@ export default function generateCalendarGroup (
 
     // 生成下个月的日期
     let i = 1
-    const total = Math.ceil(list.length / 7) * 7
-    while (list.length < total) {
+    while (list.length < TOTAL) {
       const thisDate = lastDate.add(i++, 'day').startOf('day')
       let item = {
         marks: [],
