@@ -1,13 +1,21 @@
+import { BaseEvent } from '@tarojs/components/types/common'
+
 export interface Props {
-  onClickPre: (isDisabled: boolean) => void
-
-  onClickNext: (isDisabled: boolean) => void
-
-  minDate: DateArg | undefined
-
-  maxDate: DateArg | undefined
-
   generateDate: DateArg
+
+  minDate?: DateArg
+
+  maxDate?: DateArg
+
+  hideArrow: boolean
+
+  monthFormat: string
+
+  onPreMonth: () => void
+
+  onNextMonth: () => void
+
+  onSelectDate: (e: BaseEvent) => void
 }
 
 export interface State {}

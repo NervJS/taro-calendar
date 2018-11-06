@@ -3,11 +3,17 @@ import classnames from 'classnames'
 import _isFunction from 'lodash/isFunction'
 
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Map } from '@tarojs/components'
 
 import * as constant from '../../common/constant'
 
 import './index.scss'
+
+const MAP: { [key: number]: string } = {
+  [constant.TYPE_PRE_MONTH]: 'pre',
+  [constant.TYPE_NOW_MONTH]: 'now',
+  [constant.TYPE_NEXT_MONTH]: 'next'
+}
 
 export interface Props {
   list: List<Item>
@@ -44,15 +50,19 @@ export default class AtCalendarGroup extends Taro.Component<Props> {
             <View
               key={index}
               onClick={this.handleClick.bind(this, item)}
-              onLongClick={this.handleLongClick.bind(this, item)}
-              className={classnames('flex__item', {
-                'flex__item--today': item.isToday,
-                'flex__item--active': item.isActive,
-                'flex__item--blur':
-                  item.isDisabled ||
-                  item.type === constant.TYPE_PRE_MONTH ||
-                  item.type === constant.TYPE_NEXT_MONTH
-              })}
+              onLongPress={this.handleLongClick.bind(this, item)}
+              className={classnames(
+                'flex__item',
+                `flex__item--${MAP[item.type]}`,
+                {
+                  'flex__item--today': item.isToday,
+                  'flex__item--active': item.isActive,
+                  'flex__item--blur':
+                    item.isDisabled ||
+                    item.type === constant.TYPE_PRE_MONTH ||
+                    item.type === constant.TYPE_NEXT_MONTH
+                }
+              )}
             >
               <View className='flex__item-container'>
                 <View className='container-text'>{item.text}</View>

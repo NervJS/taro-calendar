@@ -13,9 +13,7 @@ const config = {
   plugins: {
     babel: {
       sourceMap: true,
-      presets: [
-        'env'
-      ],
+      presets: ['env'],
       plugins: [
         'transform-class-properties',
         'transform-decorators-legacy',
@@ -23,13 +21,10 @@ const config = {
       ]
     }
   },
-  defineConstants: {
-  },
+  defineConstants: {},
   copy: {
-    patterns: [
-    ],
-    options: {
-    }
+    patterns: [],
+    options: {}
   },
   weapp: {
     module: {
@@ -53,6 +48,9 @@ const config = {
           enable: true
         }
       }
+    },
+    devServer: {
+      host: '0.0.0.0',
     }
   }
 }

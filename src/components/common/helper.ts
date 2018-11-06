@@ -1,4 +1,4 @@
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import _flow from 'lodash/flow'
 
 import plugins from './plugins'
@@ -98,8 +98,6 @@ export default function generateCalendarGroup (
   }
 }
 
-export function getGenerateDate (date: DateArg | undefined): DateArg {
-  return dayjs(date)
-    .startOf('month')
-    .valueOf()
+export function getGenerateDate (date: DateArg | undefined): Dayjs {
+  return dayjs(date).startOf('month')
 }

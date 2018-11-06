@@ -7,7 +7,7 @@ import _throttle from 'lodash/throttle'
 
 import Taro from '@tarojs/taro'
 import bind from 'bind-decorator'
-import { View, Swiper, SwiperItem } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { ITouchEvent } from '@tarojs/components/types/common'
 
 import AtCalendarGroup from '../../ui/list/index'
@@ -17,7 +17,7 @@ import { Props, State } from './interface'
 
 import './index.scss'
 
-const ANIMTE_DURATION = 300
+const ANIMTE_DURATION: number = 300
 
 const defaultProps: Partial<Props> = {
   marks: [],

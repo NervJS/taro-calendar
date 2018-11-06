@@ -5,15 +5,25 @@ export interface Props {
 
   maxDate?: DateArg
 
-  currentDate?: DateArg
-
   isSlider?: boolean
 
   marks?: Array<Mark>
 
-  onClick?: (item: Item) => void
+  monthFormat?: string
 
-  onLongClick?: (item: Item) => void
+  hideArrow?: boolean
+
+  currentDate?: DateArg
+
+  onClickPreMonth?: () => void
+
+  onClickNextMonth?: () => void
+
+  onDayClick?: (item: Item) => void
+
+  onDayLongClick?: (item: Item) => void
+
+  onMonthChange?: (value: string) => void
 }
 
 export interface DefaultProps {
@@ -24,12 +34,16 @@ export interface DefaultProps {
   marks: Array<Mark>
 
   currentDate: DateArg
+
+  monthFormat: string
+
+  hideArrow: boolean
 }
 
 export interface State {
-  generateDate: DateArg
+  generateDate: number
 
-  selectedDate: DateArg
+  selectedDate: number
 }
 
 export type PropsWithDefaults = Props & DefaultProps
