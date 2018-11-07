@@ -51,11 +51,11 @@ yarn add taro-calendar
 ## 开发计划
 
 - [ ] 范围选择
-- [ ] 缓存优化
-- [ ] H5 与小程序一致性
+- [ ] 缓存优化
+- [ ] H5 与小程序一致性
 - [ ] 支付宝、百度等小程序支持
 - [ ] 跨月份选择抖动
-- [ ] i18n  支持
+- [ ] i18n 支持
 
 ## 贡献
 
@@ -65,7 +65,7 @@ yarn add taro-calendar
 
 - [Taro](https://taro.aotu.io/)
 
-[npm-version-image]: https://img.shields.io/npm/v/taro-ui.svg?style=flat-square
-[npm-version-url]: https://www.npmjs.com/package/taro-ui
-[david-dm-image]: https://david-dm.org/NervJS/taro-ui.svg?style=flat-square
-[david-dm-url]: https://david-dm.org/NervJS/taro-ui
+[npm-version-image]: https://img.shields.io/npm/v/taro-calendar.svg?style=flat-square
+[npm-version-url]: https://www.npmjs.com/package/taro-calendar
+[david-dm-image]: https://david-dm.org/NervJS/taro-calendar.svg?style=flat-square
+[david-dm-url]: https://david-dm.org/NervJS/taro-calendar
