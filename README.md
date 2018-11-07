@@ -30,11 +30,11 @@ yarn add taro-calendar
 
 | name             | type                                       | default | description                  |
 | ---------------- | ------------------------------------------ | ------- | ---------------------------- |
-| currentDate      | `string | number | Date`                   | -       | 当前的时间                   |
-| minDate          | `string | number | Date`                   | -       | 最小的可选时间               |
-| maxDate          | `string | number | Date`                   | -       | 最大的可选时间               |
+| currentDate      | `string \| number \| Date`                   | -       | 当前的时间                   |
+| minDate          | `string \| number \| Date`                   | -       | 最小的可选时间               |
+| maxDate          | `string \| number \| Date`                   | -       | 最大的可选时间               |
 | isSwiper         | `boolean`                                  | -       | 是否可以滑动                 |
-| marks            | `Array<{ value: string | number | Date }>` | -       | 需要标记的时间               |
+| marks            | `Array<{ value: string \| number \| Date }>` | -       | 需要标记的时间               |
 | monthFormat      | `string`                                   | -       | 月份格式                     |
 | hideArrow        | `boolean`                                  | -       | 是否隐藏箭头                 |
 | isVertical       | `boolean`                                  | -       | 是否垂直滑动                 |
