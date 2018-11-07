@@ -1,4 +1,4 @@
-# Taro 日历组件 🗓️
+# Taro 日历组件  🎉  🗓
 
 [![NPM][npm-version-image]][npm-version-url] [![david-dm][david-dm-image]][david-dm-url]
 
@@ -28,21 +28,22 @@ yarn add taro-calendar
 
 ## API
 
-| name             | type                                       | default | description                  |
-| ---------------- | ------------------------------------------ | ------- | ---------------------------- |
-| currentDate      | `string \| number \| Date`                   | -       | 当前的时间                   |
-| minDate          | `string \| number \| Date`                   | -       | 最小的可选时间               |
-| maxDate          | `string \| number \| Date`                   | -       | 最大的可选时间               |
-| isSwiper         | `boolean`                                  | -       | 是否可以滑动                 |
-| marks            | `Array<{ value: string \| number \| Date }>` | -       | 需要标记的时间               |
-| monthFormat      | `string`                                   | -       | 月份格式                     |
-| hideArrow        | `boolean`                                  | -       | 是否隐藏箭头                 |
-| isVertical       | `boolean`                                  | -       | 是否垂直滑动                 |
-| onClickPreMonth  | `() => void`                               | -       | 点击箭头去上一个月的时候触发 |
-| onClickNextMonth | `() => void`                               | -       | 点击箭头去下一个月的时候触发 |
-| onDayClick       | `(item: Item) => void`                     | -       | 点击日期时候触发             |
-| onDayLongClick   | `(item: Item) => void`                     | -       | 长安日期时触发               |
-| onMonthChange    | `(value: string) => void`                  | -       | 月份改变时触发               |
+| name             | type                                         | default      | description                  |
+| ---------------- | -------------------------------------------- | ------------ | ---------------------------- |
+| currentDate      | `string \| number \| Date`                   | `Date.now()` | 当前的时间                   |
+| minDate          | `string \| number \| Date`                   | -            | 最小的可选时间               |
+| maxDate          | `string \| number \| Date`                   | -            | 最大的可选时间               |
+| isSwiper         | `boolean`                                    | `true`       | 是否可以滑动                 |
+| marks            | `Array<{ value: string \| number \| Date }>` | `[]`         | 需要标记的时间               |
+| format           | `string`                                     | `YYYY-MM-DD` | 日期格式                     |
+| monthFormat      | `string`                                     | `YYYY年MM月` | 月份格式                     |
+| hideArrow        | `boolean`                                    | `false`      | 是否隐藏箭头                 |
+| isVertical       | `boolean`                                    | `false`      | 是否垂直滑动                 |
+| onClickPreMonth  | `() => void`                                 | -            | 点击箭头去上一个月的时候触发 |
+| onClickNextMonth | `() => void`                                 | -            | 点击箭头去下一个月的时候触发 |
+| onDayClick       | `(item: Item) => void`                       | -            | 点击日期时候触发             |
+| onDayLongClick   | `(item: Item) => void`                       | -            | 长安日期时触发               |
+| onMonthChange    | `(value: string) => void`                    | -            | 月份改变时触发               |
 
 ## 开发交流
 
@@ -59,7 +60,7 @@ yarn add taro-calendar
 
 ## 贡献
 
-如果你在使用 `Taro Calendar` 时遇到问题，或者有好的建议，欢迎给我们提 `Issue` 或 `Pull Request`。在开始之前，请遵循 `eslint` 和 `commit-lint`
+如果你有兴趣成为 `Taro Calendar` 的一名贡献者欢迎提交 `Pull Request`。在提交之前，请遵循 `eslint` 和 `commit-lint`
 
 ## 相关链接
 
