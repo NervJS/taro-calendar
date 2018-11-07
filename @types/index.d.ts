@@ -1,5 +1,8 @@
-import * as React from 'react'
+/* eslint-disable import/prefer-default-export */
+import { ComponentClass } from 'react'
 
 import { Props } from '../src/components/calendar/interface'
 
-export default class AtCalendar extends React.Component<Props> {}
+declare const AtCalendar: ComponentClass<Props>
+
+export AtCalendar 
