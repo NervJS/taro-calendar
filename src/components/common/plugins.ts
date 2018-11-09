@@ -25,7 +25,11 @@ export function handleMarks (args: PluginArg): PluginArg {
   const { _value } = item
   const { marks } = options
 
-  const markList = marks.filter(mark => dayjs(mark.value).isSame(_value))
+  const markList = marks.filter(mark =>
+    dayjs(mark.value)
+      .startOf('day')
+      .isSame(_value)
+  )
 
   item.marks = markList.slice(0, 1)
 

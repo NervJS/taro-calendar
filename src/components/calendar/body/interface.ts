@@ -15,9 +15,9 @@ export interface Props {
 
   isVertical: boolean
 
-  generateDate: DateArg
+  generateDate: number
 
-  selectedDate: DateArg
+  selectedDate: number
 
   onPreMonth: () => void
 
@@ -34,4 +34,8 @@ export interface State {
   offsetSize: number
 
   listGroup: ListGroup
+}
+
+export interface Cache {
+  [key: number]: List<Item>
 }

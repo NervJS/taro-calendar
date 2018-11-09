@@ -13,7 +13,14 @@ export default class Index extends Component {
   }
 
   state = {
-    now: Date.now()
+    now: Date.now(),
+    minDate: '2018/06/11',
+    maxDate: '2018/12/12',
+    mark: [
+      {
+        value: '2018/11/11'
+      }
+    ]
   }
 
   componentWillMount () {}
@@ -27,9 +34,9 @@ export default class Index extends Component {
   componentDidHide () {}
 
   @bind
-  handleClick (value: string) {
+  handleClick (key: string, value: string) {
     this.setState({
-      now: value
+      [key]: value
     })
   }
 
@@ -49,7 +56,7 @@ export default class Index extends Component {
   }
 
   render () {
-    const { now } = this.state
+    const { now, minDate, maxDate, mark } = this.state
     return (
       <View className='main-page page'>
         <View className='page-header'>
@@ -70,16 +77,16 @@ export default class Index extends Component {
               <AtCalendar currentDate={now} />
               <View className='body_controllers'>
                 <Button
-                  className='button'
                   size='mini'
-                  onClick={this.handleClick.bind(this, '2018/01/01')}
+                  className='button'
+                  onClick={this.handleClick.bind(this, 'now', '2018/01/01')}
                 >
                   跳转到 2018/01/01
                 </Button>
                 <Button
-                  className='button'
                   size='mini'
-                  onClick={this.handleClick.bind(this, '2018/06/18')}
+                  className='button'
+                  onClick={this.handleClick.bind(this, 'now', '2018/06/18')}
                 >
                   跳转到 2018/6/18
                 </Button>
@@ -90,20 +97,43 @@ export default class Index extends Component {
           <View className='example'>
             <View className='example__title'>指定最小日期和最大日期</View>
             <View className='example__body'>
-              <AtCalendar minDate='2018/06/11' maxDate='2018/12/12' />
+              <AtCalendar minDate={minDate} maxDate={maxDate} />
+              <View className='body_controllers'>
+                <Button
+                  size='mini'
+                  className='button'
+                  onClick={this.handleClick.bind(this, 'minDate', '2018/01/01')}
+                >
+                  设置最小值 2018/1/1
+                </Button>
+                <Button
+                  size='mini'
+                  className='button'
+                  onClick={this.handleClick.bind(this, 'maxDate', '2018/12/31')}
+                >
+                  设置最大值 2018/12/31
+                </Button>
+              </View>
             </View>
           </View>
 
           <View className='example'>
             <View className='example__title'>标记时间</View>
             <View className='example__body'>
-              <AtCalendar
-                marks={[
-                  {
-                    value: '2018/11/11'
-                  }
-                ]}
-              />
+              <AtCalendar marks={mark} />
+              <View className='body_controllers'>
+                <Button
+                  size='mini'
+                  className='button'
+                  onClick={this.handleClick.bind(this, 'mark', [
+                    {
+                      value: Date.now()
+                    }
+                  ])}
+                >
+                  标记当前时间
+                </Button>
+              </View>
             </View>
           </View>
 
@@ -120,7 +150,6 @@ export default class Index extends Component {
               <AtCalendar isVertical />
             </View>
           </View>
-
         </View>
       </View>
     )

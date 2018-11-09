@@ -17,6 +17,8 @@ export interface Props {
 
   currentDate?: DateArg
 
+  className?: classNameType
+
   onClickPreMonth?: () => void
 
   onClickNextMonth?: () => void

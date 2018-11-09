@@ -1,5 +1,6 @@
-import dayjs, { Dayjs } from 'dayjs'
 import bind from 'bind-decorator'
+import classnames from 'classnames'
+import dayjs, { Dayjs } from 'dayjs'
 import _isFunction from 'lodash/isFunction'
 import { BaseEvent } from '@tarojs/components/types/common'
 
@@ -94,9 +95,7 @@ export default class AtCalendar extends Taro.Component<Props, State> {
   }
 
   @bind
-  private handleSelectDate (
-    e: BaseEvent & { detail: { value: string } }
-  ) {
+  private handleSelectDate (e: BaseEvent & { detail: { value: string } }) {
     const { value } = e.detail
 
     const _generateDate: Dayjs = dayjs(value)
@@ -153,14 +152,15 @@ export default class AtCalendar extends Taro.Component<Props, State> {
       minDate,
       maxDate,
       isSwiper,
+      className,
       hideArrow,
       isVertical,
       monthFormat
     } = this.props as PropsWithDefaults
 
     return (
-      <View className='at-calender'>
-        <View className='at-calender__controller'>
+      <View className={classnames('at-calendar', className)}>
+        <View className='at-calendar__controller'>
           <AtCalendarController
             minDate={minDate}
             maxDate={maxDate}
@@ -172,7 +172,7 @@ export default class AtCalendar extends Taro.Component<Props, State> {
             onSelectDate={this.handleSelectDate}
           />
         </View>
-        <View className='at-calender__body'>
+        <View className='at-calendar__body'>
           <AtCalendarBody
             marks={marks}
             format={format}

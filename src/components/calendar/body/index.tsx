@@ -17,6 +17,7 @@ import { Props, State, ListGroup } from './interface'
 
 import './index.scss'
 
+let platform = ''
 const ANIMTE_DURATION: number = 300
 
 const defaultProps: Partial<Props> = {
@@ -27,13 +28,18 @@ const defaultProps: Partial<Props> = {
   onClick: () => {}
 }
 
+Taro.getSystemInfo().then(res => {
+  platform = res.platform
+})
+
 export default class AtCalendarBody extends Taro.Component<
   Props,
   Readonly<State>
   > {
   static defaultProps: Partial<Props> = defaultProps
 
-  private current: number = 1
+  private isChanged: boolean = false
+  private currentSwiperIndex: number = 1
   private startX: number = 0
   private swipeStartPoint: number = 0
   private isPreMonth: boolean = false
@@ -41,8 +47,8 @@ export default class AtCalendarBody extends Taro.Component<
   private isTouching: boolean = false
 
   private generateFunc: (
-    generateDate: DateArg,
-    selectedDate: DateArg,
+    generateDate: number,
+    selectedDate: number,
     isShowStatus?: boolean
   ) => List<Item>
 
@@ -73,7 +79,7 @@ export default class AtCalendarBody extends Taro.Component<
   }
 
   @bind
-  private getGroups (generateDate: DateArg, selectedDate: DateArg): ListGroup {
+  private getGroups (generateDate: number, selectedDate: number): ListGroup {
     const dayjsDate = dayjs(generateDate)
     const arr: ListGroup = []
     const preList: List<Item> = this.generateFunc(
@@ -92,12 +98,14 @@ export default class AtCalendarBody extends Taro.Component<
       selectedDate
     )
 
-    const preListIndex = this.current === 0 ? 2 : this.current - 1
-    const nextListIndex = this.current === 2 ? 0 : this.current + 1
+    const preListIndex =
+      this.currentSwiperIndex === 0 ? 2 : this.currentSwiperIndex - 1
+    const nextListIndex =
+      this.currentSwiperIndex === 2 ? 0 : this.currentSwiperIndex + 1
 
     arr[preListIndex] = preList
-    arr[this.current] = nowList
     arr[nextListIndex] = nextList
+    arr[this.currentSwiperIndex] = nowList
 
     return arr
   }
@@ -210,12 +218,16 @@ export default class AtCalendarBody extends Taro.Component<
   @bind
   private handleChange (e: BaseEvent & { detail: { current: number } }) {
     const { current } = e.detail
+    this.isChanged = true
+    this.currentSwiperIndex = current
+  }
 
-    this.current = current
-
-    setTimeout(() => {
+  @bind
+  private handleAnimateFinish (e: BaseEvent & { detail: { current: number } }) {
+    if (this.isChanged) {
+      this.isChanged = false
       this.isPreMonth ? this.props.onPreMonth() : this.props.onNextMonth()
-    }, 500)
+    }
   }
 
   @bind
@@ -238,7 +250,7 @@ export default class AtCalendarBody extends Taro.Component<
 
   render () {
     const { isSwiper } = this.props
-    const { isAnimate, offsetSize, listGroup } = this.state
+    const { isAnimate, offsetSize, listGroup, disabled } = this.state
 
     if (!isSwiper) {
       return (
@@ -264,8 +276,8 @@ export default class AtCalendarBody extends Taro.Component<
       return (
         <View
           className={classnames(
-            'at-calendar-slider__main',
             'main',
+            'at-calendar-slider__main',
             `at-calendar-slider__main--${process.env.TARO_ENV}`
           )}
           onTouchEnd={this.handleTouchEnd}
@@ -308,8 +320,8 @@ export default class AtCalendarBody extends Taro.Component<
     return (
       <View
         className={classnames(
-          'at-calendar-slider__main',
           'main',
+          'at-calendar-slider__main',
           `at-calendar-slider__main--${process.env.TARO_ENV}`
         )}
       >
@@ -317,9 +329,10 @@ export default class AtCalendarBody extends Taro.Component<
         <Swiper
           circular
           current={1}
-          className='main__body'
+          className={classnames('main__body')}
           onChange={this.handleChange}
           vertical={this.props.isVertical}
+          onAnimationFinish={this.handleAnimateFinish}
           onTouchEnd={this.handleSwipeTouchEnd}
           onTouchStart={this.handleSwipeTouchStart}
         >

@@ -10,7 +10,7 @@ export default class AtCalendarHeader extends Taro.Component {
     return (
       <View className='at-calendar__header header'>
         <View className='header__flex'>
-          <View className='header__flex-item'>天</View>
+          <View className='header__flex-item'>日</View>
           <View className='header__flex-item'>一</View>
           <View className='header__flex-item'>二</View>
           <View className='header__flex-item'>三</View>

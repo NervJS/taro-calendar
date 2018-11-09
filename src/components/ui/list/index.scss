@@ -1,7 +1,5 @@
 @import "../../../style/mixins/index.scss";
-
-$size: 72px;
-$markSize: 8px;
+@import "../../../style/theme/index.scss";
 
 .at-calendar__list.flex {
   @include display-flex;
@@ -21,8 +19,8 @@ $markSize: 8px;
       @include align-items(center);
       @include display-flex;
 
-      width: $size;
-      height: $size;
+      width: $daySize;
+      height: $daySize;
       margin-left: auto;
       margin-right: auto;
       border-radius: 50%;
@@ -45,7 +43,7 @@ $markSize: 8px;
           height: $markSize;
           margin-right: 4px;
           display: inline-block;
-          background-color: black;
+          background-color: $primary;
           border-radius: 50%;
           overflow: hidden;
 
@@ -63,12 +61,13 @@ $markSize: 8px;
 
       .flex__item-container {
         color: white;
-        background-color: rgba($color: #78a4fa, $alpha: 0.5);
+        background-color: rgba($color: $primary, $alpha: 0.7);
       }
     }
 
     &--today {
-      color: #78a4fa;
+      color: $primary;
+      font-weight: bold;
     }
 
     &--blur {

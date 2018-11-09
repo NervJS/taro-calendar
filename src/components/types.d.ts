@@ -3,6 +3,8 @@ import dayjs from 'dayjs'
 declare global {
   type DateArg = string | number | Date
 
+  type classNameType = string | Array<string> | { [key: string]: boolean }
+
   interface Mark {
     value: DateArg
   }
