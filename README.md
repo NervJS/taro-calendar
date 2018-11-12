@@ -1,6 +1,6 @@
 # Taro 日历组件  🎉  🗓
 
-![NPM][npm-version-image][npm-version-url] [![david-dm][david-dm-image]][david-dm-url]
+[![NPM][npm-version-image]][npm-version-url] [![david-dm][david-dm-image]][david-dm-url]
 
 一款基于 `Taro` 框架开发的多端日历组件
 
