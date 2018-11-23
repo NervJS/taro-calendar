@@ -1,12 +1,10 @@
 language: node_js
 node_js: stable
 
-cache:
-  directories:
-    - node_modules
+cache: npm
 
-install:
-  - npm install
+before_install:
+  - npm install -g @tarojs/cli
 
 script:
   - npm run test:ci
