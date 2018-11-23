@@ -1,0 +1,26 @@
+language: node_js
+node_js: stable
+
+cache:
+  directories:
+    - node_modules
+
+install:
+  - npm install
+
+script:
+  - npm run test:ci
+
+after_script:
+  - echo 'taro-calendar.aotu.io' > CNAME
+  - git add .
+  - git commit -m "docs:Update Document"
+  - git subtree push --prefix=dist origin gh-pages
+
+branches:
+  only:
+    - master
+
+env:
+  global:
+    - GH_REF: github.com/NervJS/taro-ui.git

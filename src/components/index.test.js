@@ -1,4 +1,11 @@
-/* eslint-disable react/no-find-dom-node */
+import Nerv from 'nervjs'
+import { renderToString } from 'nerv-server'
+
+import AtCalendar from '../../.temp/components/calendar/index'
+
 describe('Calendar Snap', () => {
-  it('initial Calendar', () => {})
+  it('render initial Progress', () => {
+    const component = renderToString(<AtCalendar />)
+    expect(component).toMatchSnapshot()
+  })
 })
