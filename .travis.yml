@@ -13,7 +13,7 @@ after_script:
   - echo 'taro-calendar.aotu.io' > CNAME
   - git add .
   - git commit -m "docs:Update Document"
-  - git subtree push --prefix=dist origin gh-pages
+  - git push -f "https://${GIT_TOKEN}@${GIH_REF}" master:gh-pages
 
 branches:
   only:
@@ -21,4 +21,4 @@ branches:
 
 env:
   global:
-    - GH_REF: github.com/NervJS/taro-ui.git
+    - GIH_REF: github.com/NervJS/taro-calendar.git
