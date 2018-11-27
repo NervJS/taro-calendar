@@ -11,10 +11,12 @@ install:
 
 script:
   - yarn run test:ci
+  - ./node_modules/.bin/eslint ./src --ext .ts,.tsx
 
 after_script:
   - echo 'taro-calendar.aotu.io' > CNAME
   - cd ./dist
+  - git init
   - git config user.name "travis"
   - git config user.email "taro-calendar@travis.com"
   - git add .

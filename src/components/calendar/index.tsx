@@ -12,7 +12,7 @@ import { getGenerateDate } from '../common/helper'
 import AtCalendarController from './controller/index'
 import { DefaultProps, Props, State, PropsWithDefaults } from './interface'
 
-import './index.scss'
+import './index.scss';
 
 const defaultProps: DefaultProps = {
   marks: [],
