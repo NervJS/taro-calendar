@@ -1,13 +1,13 @@
 language: node_js
 node_js: stable
 
-cache: npm
+cache: yarn
 
 before_install:
-  - npm install -g @tarojs/cli@1.1.9
+  - yarn global add -g @tarojs/cli@1.1.9
 
 script:
-  - npm run test:ci
+  - yarn run test:ci
 
 after_script:
   - echo 'taro-calendar.aotu.io' > CNAME
