@@ -15,8 +15,6 @@ script:
 after_script:
   - echo 'taro-calendar.aotu.io' > CNAME
   - cd ./dist
-  - ls
-  - git init
   - git config user.name "travis"
   - git config user.email "taro-calendar@travis.com"
   - git add .
